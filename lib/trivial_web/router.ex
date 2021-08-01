@@ -1,6 +1,8 @@
 defmodule TrivialWeb.Router do
   use TrivialWeb, :router
 
+  import TrivialWeb.AuthHelper
+
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
@@ -8,6 +10,16 @@ defmodule TrivialWeb.Router do
     plug :put_root_layout, {TrivialWeb.LayoutView, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug :fetch_current_user
+  end
+
+  pipeline :google_auth do
+    plug :accepts, ["html"]
+    plug :fetch_session
+    plug :fetch_live_flash
+    plug :put_root_layout, {TrivialWeb.LayoutView, :root}
+    plug :put_secure_browser_headers
+    plug :fetch_current_user
   end
 
   pipeline :api do
@@ -18,6 +30,19 @@ defmodule TrivialWeb.Router do
     pipe_through :browser
 
     live "/", PageLive, :index
+    delete "/users/log_out", UserSessionController, :delete
+  end
+
+  scope "/users", TrivialWeb do
+    pipe_through [:browser, :redirect_if_user_is_authenticated]
+
+    get "/log_in", UserSessionController, :new
+  end
+
+  scope "/auth", TrivialWeb do
+    pipe_through :google_auth
+
+    post "/:provider/callback", UserSessionController, :callback
   end
 
   # Other scopes may use custom stacks.

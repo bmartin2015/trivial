@@ -74,3 +74,8 @@ config :phoenix, :stacktrace_depth, 20
 
 # Initialize plugs at runtime for faster development compilation
 config :phoenix, :plug_init_mode, :runtime
+
+# UeberAuth Dev
+config :trivial,
+  google_client_id: System.fetch_env!("GOOGLE_CLIENT_ID"),
+  google_client_secret: System.fetch_env!("GOOGLE_CLIENT_SECRET")

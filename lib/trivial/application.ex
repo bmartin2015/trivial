@@ -14,9 +14,10 @@ defmodule Trivial.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: Trivial.PubSub},
       # Start the Endpoint (http/https)
-      TrivialWeb.Endpoint
+      TrivialWeb.Endpoint,
       # Start a worker by calling: Trivial.Worker.start_link(arg)
       # {Trivial.Worker, arg}
+      {Trivial.Google.TokenStrategy, time_interval: 60_000}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

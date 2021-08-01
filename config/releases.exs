@@ -30,6 +30,10 @@ config :trivial, TrivialWeb.Endpoint,
   ],
   secret_key_base: secret_key_base
 
+config :trivial,
+  google_client_id: System.fetch_env!("GOOGLE_CLIENT_ID"),
+  google_client_secret: System.fetch_env!("GOOGLE_CLIENT_SECRET")
+
 # ## Using releases (Elixir v1.9+)
 #
 # If you are doing OTP releases, you need to instruct Phoenix

@@ -20,3 +20,6 @@ config :trivial, TrivialWeb.Endpoint,
 
 # Print only warnings and errors during test
 config :logger, level: :warn
+
+config :trivial,
+  google_client_id: "some id"
